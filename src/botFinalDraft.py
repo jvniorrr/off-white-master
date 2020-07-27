@@ -67,7 +67,7 @@ class Bot():
         self.meUrl = 'https://www.off---white.com/api/legacy/v1/users/me'
 
         # set the user info here
-        self.userInfo = dict()
+        # self.userInfo = dict()
         self.TotalTasks = info['total']
         self.userInfo['profile'] = info['profile']
         self.userInfo['first'] = info['firstName']
@@ -89,7 +89,7 @@ class Bot():
             self.userInfo['hook'] = info['webhook']
         self.userInfo['proxy'] = info["proxies"]
         # set a check, either checkout using Card or Paypal
-        self.paypalbool = info.get('paypal')
+        # self.paypalbool = info.get('paypal')
 
     def get_proxy(self, path: str):
         # wd = os.path.dirname(os.path.realpath(__file__))
@@ -467,7 +467,7 @@ class Bot():
 
     def pp_finalize(self):
         """Finalize checkout step AKA process / complete payment using PAYPAL"""
-        self.session.headers['Accept-Encoding'] = 'gzip, deflate, br'
+        # self.session.headers['Accept-Encoding'] = 'gzip, deflate, br'
         url = f"{self.cartSess}/finalize"
         ppdata = {"paymentMethodId":str(self.ppID),"paymentMethodType":"CustomerAccount"}
         success = False
@@ -681,10 +681,10 @@ class Bot():
         self.checkout_step2()
         self.checkout_step3()
         self.checkout_step4()
-        if self.paypalbool:
-            self.pp_finalize()
-        else:
-            self.finalize()
+        # if self.paypalbool: # comment out choice to do paypal or CreditCard for now
+        self.pp_finalize()
+        # else:
+        # self.finalize()
     
     def tasks(self):
         threads = []
@@ -700,6 +700,7 @@ class Bot():
 
 if __name__ == '__main__':
     config_file = os.path.join(os.getcwd(),'config.json')
+    config_file = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/profiles.json'
     json_file = open(config_file, 'r', encoding='utf-8')
     info = json.load(json_file)
     json_file.close()
