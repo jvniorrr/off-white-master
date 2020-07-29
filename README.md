@@ -67,7 +67,7 @@ Proxies value should be `null` to use local host, or a direct path of the proxie
 | -------- | -------- |
 | ✅| Add retries to request if any errors arise  |
 | ✅| Find a way to add better handling specifically for site crashes (Fixed think)  |
-| ✅| Add threading for multiple profile use |
+| ❌| Add threading for multiple profile use |
 | ✅| Add a simple terminal based UI / menu |
 | ✅| Add support for proxy groups  |
 | ✅| Add support for localhost |

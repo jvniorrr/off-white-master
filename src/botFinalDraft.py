@@ -1,7 +1,7 @@
 import cloudscraper
 import logging, threading
 from bs4 import BeautifulSoup
-import random, requests, json, os, datetime, time
+import random, requests, json, os, datetime, time, platform
 from fake_useragent import UserAgent #not even used
 import lxml.html
 from lxml import etree
@@ -82,12 +82,19 @@ class Bot():
         self.userInfo['zipcode'] = info['zipCode']
         self.userInfo['ccinfo'] = info['card']
         self.userInfo['email'] = info['email']
+
         info['webhook'] = hook
         if 'discord.com' in info['webhook']:
             self.userInfo['hook'] = str(info['webhook']).replace('discord.com', 'discordapp.com')
         else:
             self.userInfo['hook'] = info['webhook']
-        self.userInfo['proxy'] = info["proxies"]
+        try:
+            if platform.system().lower() == 'windows':
+                self.userInfo['proxy'] = info["proxies"].replace("/","\\")
+            else:
+                self.userInfo['proxy'] = str(info["proxies"])
+        except Exception:
+            self.userInfo['proxy'] = info["proxies"]
         # set a check, either checkout using Card or Paypal
         # self.paypalbool = info.get('paypal')
 
@@ -188,6 +195,7 @@ class Bot():
         
     def atc_properties(self,html):
         """Grabs ATC properties on page requested, the id for the data load"""
+        # url  = f'https://www.off---white.
         ## rework this as well as sometimes the response doesnt seem to be the right one
         soup = BeautifulSoup(html, 'lxml')
         datas = soup.body.find_all('script')[0]
@@ -266,6 +274,7 @@ class Bot():
         ru2 = self.session.get('https://www.off---white.com/en-us/account/login?returnurl=%2Faccount%2F', proxies=self.proxies) # current fix hopefully works at drop
         
         sizes = self.atc_properties(r.text)
+        
         logging.info(Fore.CYAN + f"Successfully grabbed sizes available for Product: {self.itemName}")
         info = self.fetch_cartSlug()
         self.bagId = info.get('bagid')
@@ -700,7 +709,7 @@ class Bot():
 
 if __name__ == '__main__':
     config_file = os.path.join(os.getcwd(),'config.json')
-    config_file = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/profiles.json'
+    # config_file = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/profiles.json'
     json_file = open(config_file, 'r', encoding='utf-8')
     info = json.load(json_file)
     json_file.close()
@@ -708,7 +717,7 @@ if __name__ == '__main__':
     output2 = render('✨ c/o Jvnior OW ✨', colors=['candy'], align='left', font='console')
     print(output, output2)
     link = 'https://www.off---white.com/en-us/shopping/-item-15280719'
-    link = 'https://www.off---white.com/en-us/shopping/low-vulcanized-sneakers-15340448'
+    # link = 'https://www.off---white.com/en-us/shopping/low-vulcanized-sneakers-15596676'
     threads = []
 
     # C = Bot(link, info).add_to_cart()
@@ -719,7 +728,7 @@ if __name__ == '__main__':
     #     threads.append(future)
         # print(future.result())
     
-    C = Bot(link, info["profiles"][0], info['webhook'], info['captcha']).tasks()
+    C = Bot(link, info["profiles"][1], info['webhook'], info['captcha']).tasks()
 
     # for _ in range(3):
     #     C = Bot(link, info)

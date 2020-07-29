@@ -57,7 +57,8 @@ def termUI():
         output2 = render('✨ c/o Jvnior OW ✨', colors=['candy'], align='left', font='console')
         print(output, output2)
         for profile in profiles:
-            t = threading.Thread(target=Bot(url=link, info=profile, hook=hook, captcha=captcha).tasks, args=())
+            bot = Bot(url=link, info=profile, hook=hook, captcha=captcha)
+            t = threading.Thread(target=bot.tasks, args=())
             t.start()
             threads.append(t)
         for thread in threads:
