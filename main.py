@@ -5,11 +5,34 @@ from consolemenu.menu_component import Dimension
 import os, time, subprocess, platform, json, threading
 from src.botFinalDraft import Bot
 from cfonts import render, say
+from pypresence import Presence
+import time
 
 
 
 def termUI():
     # grab dir of file
+
+    # JV = Presence(client_id='738410404207788124')
+    # JV.connect()
+    # JV.update(
+    #     details="Playing Virgil Abloh ✨",
+    #     large_image='jvnioraio',
+    #     large_text='JvniorAIO',
+    #     start=int(time.time()),
+    #     spectate='MTIzNDV8MTIzNDV8MTMyNDU0'
+    #     )
+    RC = Presence(client_id='732391288208490567')
+    RC.connect()
+    # RC.update()
+    RC.update(
+        details="Treading Off White",
+        large_image='modusio',
+        large_text='Modus IO',
+        small_image='modusio',
+        small_text='Modus IO',
+        start=int(time.time())
+        )
     wd = os.path.dirname(os.path.realpath(__file__))
 
 
