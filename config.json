@@ -1,7 +1,31 @@
 {
     "profiles":[
         {
-    "profile":"Testing Real",
+    "profile":"Testing Proxy",
+    "firstName":"jr",
+    "lastName":"mendo",
+    "phone":"5593509109",
+    "email": "testing@gmail.com",
+    "addressLine1":"123 main str",
+    "addressLine2":"",
+    "addressLine3":"",
+    "city":"los angeles",
+    "state":"California",
+    "country":"US",
+    "zipCode":"90012",
+    "card": {
+        "name":"jr test",
+        "number": "4767718384880573",
+        "expyear":2023,
+        "expmonth": 6,
+        "cvv":"889"
+    },
+    "proxies":"/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/proxies.txt",
+    "paypal":false,
+    "total":1
+        },
+        {
+    "profile":"Testing Local",
     "firstName":"jr",
     "lastName":"mendo",
     "phone":"5593509109",

@@ -38,7 +38,8 @@ class Bot():
         # set the cloudscraper sesssion as well as mount the adapter to deal with site crash
         self.session = cloudscraper.create_scraper(
         captcha={'provider':'2captcha', 'api_key':captcha},
-        browser={'browser':'chrome', 'desktop':True}
+        browser={'browser':'chrome', 'desktop':True, 'platform':'windows'},
+        interpreter='nodejs'
         )
 
         # set the url link and grab the Product ID
@@ -117,10 +118,10 @@ class Bot():
         # set the proper headers (note: the encoding header value was not that when done through browser / manual)
         self.session.headers['Accept'] = 'application/json, text/plain, */*'
         self.session.headers['Accept-Encoding'] = 'gzip'
-        self.session.headers['Accept-Language'] = 'en-US'
+        self.session.headers['Accept-Language'] = 'en-GB'
         self.session.headers['x-newrelic-id'] = 'VQUCV1ZUGwIFVlBRDgcA'
-        self.session.headers['ff-country'] = 'US'
-        self.session.headers['ff-currency'] = 'USD'
+        self.session.headers['ff-country'] = 'GB'
+        self.session.headers['ff-currency'] = 'GBP'
         self.session.headers['referer'] = 'https://www.off---white.com/'
         self.session.headers['sec-fetch-dest'] = 'empty'
         self.session.headers['sec-fetch-mode'] = 'cors'
@@ -131,6 +132,7 @@ class Bot():
             try:
                 meURL = 'https://www.off---white.com/api/legacy/v1/users/me'
                 r = self.session.get(meURL, proxies=self.proxies)
+                print(r.statu)
                 r.raise_for_status()
                 info = json.loads(r.text)
                 file = dict()
@@ -214,7 +216,7 @@ class Bot():
                 allSizes = None
         except json.decoder.JSONDecodeError:
             logging.error(Fore.RED + 'Script tag was not valid when being passed to the json lib')
-            pass
+            pass # add error handling here
             # self.main()
         except Exception:
             logging.error(Fore.RED + 'Error parsing the sizes available')
@@ -223,13 +225,29 @@ class Bot():
 
     def add_to_cart_EU(self):
         """Add's product to cart on OW EU"""
-        self.session.headers['accept-encoding'] = 'gzip, deflate, br'
-        self.session.headers['user-agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Mobile/15E148 Safari/604.1'
-        self.session.headers['accept-language'] = 'en-US,en;q=0.9'
-        self.session.headers['accept'] = 'application/json, text/plain, */*'
-        r = self.session.get(self.url)
-        print(r.text)
+        
+        # self.session.headers['accept-encoding'] = 'gzip'
+        # self.session.headers['user-agent'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
+        self.session.headers['Accept-Language'] = 'en-US,en;q=0.9'
+        self.session.headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+        self.session.headers['sec-fetch-dest'] = 'document'
+        self.session.headers['sec-fetch-mode'] = 'navigate'
+        self.session.headers['sec-fetch-site'] = 'none'
+        self.session.headers['sec-fetch-user'] = '?1'
+        self.session.headers['upgrade-insecure-requests'] = '1'
+        self.session.headers['authority'] = 'www.off---white.com'
+        self.proxies = self.get_proxy(self.userInfo['proxy'])
+        # print(self.proxies)
+        # print(self.session.headers)
+        # print(self.session.cookies)
+        r = self.session.get(self.url, proxies=self.proxies)
+        soup = BeautifulSoup(r.text, 'lxml')
         print(r.status_code)
+        ru2 = self.session.get('https://www.off---white.com/en-gb/account/login?returnurl=%2Faccount%2F', proxies=self.proxies) # current fix hopefully works at drop
+        # sizes = self.atc_properties(r.text)
+        logging.info(Fore.CYAN + f"Successfully grabbed sizes available for Product: {self.itemName}")
+        # info = self.fetch_cartSlug()
+
 
 
     def add_to_cart(self):
@@ -248,16 +266,15 @@ class Bot():
                 print(r.text)
                 r.raise_for_status()
                 soup = BeautifulSoup(r.text, 'lxml')
-                # datas = soup.body.find_all('script')[0]
-                # if 'PRELOADED_STATE' in str(soup.body.find_all('script')[0]):
-                #     success = True
-                #     logging.info(Fore.GREEN +  'Successfull request and response from page')
-                #     break
-                # else:
-                #     logging.info(Fore.CYAN + 'Reattempting to recieve proper response from product page.')
-                #     self.proxies = self.get_proxy()
-
-                #     continue
+                datas = soup.body.find_all('script')[0]
+                if 'PRELOADED_STATE' in str(soup.body.find_all('script')[0]):
+                    success = True
+                    logging.info(Fore.GREEN +  'Successfull request and response from page')
+                    break
+                else:
+                    logging.info(Fore.CYAN + 'Reattempting to recieve proper response from product page.')
+                    # self.proxies = self.get_proxy()
+                    continue
             except requests.exceptions.HTTPError:
                 logging.error(Fore.RED + 'Error retrieving a successful response from prod URL. Retrying...')
                 # self.proxies = self.get_proxy()
@@ -709,7 +726,8 @@ class Bot():
 
 if __name__ == '__main__':
     # config_file = os.path.join(os.getcwd(),'config.json')
-    config_file = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/profiles.json'
+    realfile = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/profiles.json'
+    config_file = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/config.json'
     json_file = open(config_file, 'r', encoding='utf-8')
     info = json.load(json_file)
     json_file.close()

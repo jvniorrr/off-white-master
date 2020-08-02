@@ -13,15 +13,7 @@ import time
 def termUI():
     # grab dir of file
 
-    # JV = Presence(client_id='738410404207788124')
-    # JV.connect()
-    # JV.update(
-    #     details="Playing Virgil Abloh ✨",
-    #     large_image='jvnioraio',
-    #     large_text='JvniorAIO',
-    #     start=int(time.time()),
-    #     spectate='MTIzNDV8MTIzNDV8MTMyNDU0'
-    #     )
+
     RC = Presence(client_id='732391288208490567')
     RC.connect()
     # RC.update()
@@ -31,7 +23,9 @@ def termUI():
         large_text='Modus IO',
         small_image='modusio',
         small_text='Modus IO',
-        start=int(time.time())
+        start=int(time.time()),
+        join='join',
+        party_id='123'
         )
     wd = os.path.dirname(os.path.realpath(__file__))
 

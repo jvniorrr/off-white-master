@@ -38,17 +38,18 @@ class Bot():
         # set the cloudscraper sesssion as well as mount the adapter to deal with site crash
         self.session = cloudscraper.create_scraper(
         captcha={'provider':'2captcha', 'api_key':captcha},
-        browser={'browser':'chrome', 'desktop':True}
+        browser={'browser':'chrome', 'desktop':True, 'platform':'windows'},
+        interpreter='nodejs'
         )
-        retries = 5
-        retry = Retry(
-            total=retries,
-            read=retries,
-            connect=retries,
-            status_forcelist=[500, 501, 502, 503, 504, 400, 403, 404, 408, 429],
-            backoff_factor=0.3
-        )
-        a = requests.adapters.HTTPAdapter(max_retries=retry)
+        # retries = 5
+        # retry = Retry(
+        #     total=retries,
+        #     read=retries,
+        #     connect=retries,
+        #     status_forcelist=[500, 501, 502, 503, 504, 400, 403, 404, 408, 429],
+        #     backoff_factor=0.3
+        # )
+        # a = requests.adapters.HTTPAdapter(max_retries=retry)
         # self.session.mount('https://', a)
         # self.proxies = self.get_proxy()
 
@@ -708,8 +709,8 @@ class Bot():
 
 
 if __name__ == '__main__':
-    config_file = os.path.join(os.getcwd(),'config.json')
-    # config_file = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/profiles.json'
+    # config_file = os.path.join(os.getcwd(),'config.json')
+    config_file = '/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/config.json'
     json_file = open(config_file, 'r', encoding='utf-8')
     info = json.load(json_file)
     json_file.close()
@@ -728,7 +729,7 @@ if __name__ == '__main__':
     #     threads.append(future)
         # print(future.result())
     
-    C = Bot(link, info["profiles"][1], info['webhook'], info['captcha']).tasks()
+    C = Bot(link, info["profiles"][0], info['webhook'], info['captcha']).tasks()
 
     # for _ in range(3):
     #     C = Bot(link, info)
