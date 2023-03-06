@@ -15,12 +15,12 @@
     "zipCode":"90012",
     "card": {
         "name":"jr test",
-        "number": "4767718384880573",
-        "expyear":2023,
-        "expmonth": 6,
-        "cvv":"889"
+        "number": "4242424242424242",
+        "expyear":2022,
+        "expmonth": 8,
+        "cvv":"123"
     },
-    "proxies":"/Users/junior/Library/Mobile Documents/com~apple~CloudDocs/Personal Works/Python/Github/off-white-master/proxies.txt",
+    "proxies":"localPath/file",
     "paypal":false,
     "total":1
         },
@@ -39,16 +39,16 @@
     "zipCode":"90012",
     "card": {
         "name":"jr test",
-        "number": "4767718384880573",
-        "expyear":2023,
-        "expmonth": 6,
-        "cvv":"889"
+        "number": "4242424242424242",
+        "expyear":2022,
+        "expmonth": 2,
+        "cvv":"123"
     },
     "proxies":null,
     "paypal":false,
     "total":1
         }
     ],
-    "webhook":"https://discordapp.com/api/webhooks/733962904449318955/MFDnqcvzRwFwHx6JTZC8qaq2YnHvt6ugWubkYbYOMNjwTroWqHaJWrRLA4qhH_x3mZWS",
-    "captcha":"b698cc5ec5e01a68e688b2b9a543518e"
+    "webhook":"https://discordapp.com/api/webhooks/xxx",
+    "captcha":"CAPTCHA_TOKEN"
 }
