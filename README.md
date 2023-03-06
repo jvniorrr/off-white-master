@@ -1,5 +1,7 @@
 # OFF-WHITE
+- ARCHIVED REPOSITORY
 - Off white script, autocheckout tool. 
+- This was once working and was able to purchase a pair of Off White Jordan 4's. Super proud of this work, and that it was functioning for it having been my first program and was automation using requests library. Supported threading for multiple tasks to be automated. Here for research / learning purposes only now. If you would like to learn of requests and automation heres a rough idea. Again not the best code as I was a novice (still am >.<) and did not understand the principles of software engineering. This should give you a general idea of how to automate checkout processes using requests. 
 * Has support for Paypal Checkout currently & multiple profiles. 
 * Test for Off white Jordan 4
 
